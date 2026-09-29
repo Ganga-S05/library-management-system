@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            <div>
+                <h1>Libra<span>ry</span></h1>
+                <p>Library Management System</p>
+            </div>
+        </div>
+
+        <span class="status">
+            <span class="status-dot"></span>
+            Library Portal
+        </span>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#books">Books</a>
+        <a href="#members">Members</a>
+        <a href="#borrow-records">Borrow Records</a>
+    </nav>
+
+    <main class="container">
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="section">
+            <div class="page-heading">
+                <div>
+                    <p class="eyebrow">OVERVIEW</p>
+                    <h2>Welcome to your library</h2>
+                    <p class="muted">
+                        Manage your books, members, and borrowing activity.
+                    </p>
+                </div>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        onclick="refreshAll()">
+                    ↻ Refresh data
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card stat-blue">
+                    <div class="stat-icon">📚</div>
+                    <p>Total Books</p>
+                    <h3 id="total-books">0</h3>
+                    <span>Books in the library</span>
+                </article>
+
+                <article class="stat-card stat-purple">
+                    <div class="stat-icon">👥</div>
+                    <p>Total Members</p>
+                    <h3 id="total-members">0</h3>
+                    <span>Registered members</span>
+                </article>
+
+                <article class="stat-card stat-orange">
+                    <div class="stat-icon">📋</div>
+                    <p>Borrow Records</p>
+                    <h3 id="total-borrow-records">0</h3>
+                    <span>Recorded transactions</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- Books -->
+        <section id="books" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">COLLECTION</p>
+                    <h2>Book Management</h2>
+                    <p class="muted">
+                        Add, find, update, and remove books.
+                    </p>
+                </div>
+
+                <span class="count-badge" id="books-count">
+                    0 books
+                </span>
+            </div>
+
+            <form id="book-form" class="form-panel">
+                <h3 id="book-form-title">Add a new book</h3>
+
+                <input type="hidden" id="book-id">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="book-name">Book name *</label>
+                        <input
+                            id="book-name"
+                            type="text"
+                            placeholder="e.g. Java Basics"
+                            maxlength="150"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-author">Author</label>
+                        <input
+                            id="book-author"
+                            type="text"
+                            placeholder="e.g. James"
+                            maxlength="150">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit"
+                            class="btn btn-primary"
+                            id="book-submit-btn">
+                        + Add Book
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            id="book-cancel-btn"
+                            hidden>
+                        Cancel edit
+                    </button>
+                </div>
+            </form>
+
+            <div class="table-toolbar">
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        id="book-search"
+                        type="search"
+                        placeholder="Search books by name, author, or ID">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Book Name</th>
+                            <th>Author</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="books-table-body">
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                Loading books...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Members -->
+        <section id="members" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">PEOPLE</p>
+                    <h2>Member Management</h2>
+                    <p class="muted">
+                        Manage your library's registered members.
+                    </p>
+                </div>
+
+                <span class="count-badge" id="members-count">
+                    0 members
+                </span>
+            </div>
+
+            <form id="member-form" class="form-panel">
+                <h3 id="member-form-title">Register a member</h3>
+
+                <input type="hidden" id="member-id">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="member-name">Full name *</label>
+                        <input
+                            id="member-name"
+                            type="text"
+                            placeholder="Enter full name"
+                            maxlength="150"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-email">Email *</label>
+                        <input
+                            id="member-email"
+                            type="email"
+                            placeholder="name@example.com"
+                            maxlength="150"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-phone">Phone</label>
+                        <input
+                            id="member-phone"
+                            type="tel"
+                            placeholder="Enter phone number"
+                            maxlength="30">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit"
+                            class="btn btn-primary"
+                            id="member-submit-btn">
+                        + Add Member
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-secondary"
+                            id="member-cancel-btn"
+                            hidden>
+                        Cancel edit
+                    </button>
+                </div>
+            </form>
+
+            <div class="table-toolbar">
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        id="member-search"
+                        type="search"
+                        placeholder="Search by name, email, or phone">
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="members-table-body">
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                Loading members...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Borrow Records -->
+        <section id="borrow-records" class="section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">CIRCULATION</p>
+                    <h2>Borrow Records</h2>
+                    <p class="muted">
+                        Track borrowed books and mark returned books.
+                    </p>
+                </div>
+
+                <span class="count-badge" id="records-count">
+                    0 records
+                </span>
+            </div>
+
+            <!-- Create Borrow Record -->
+            <form id="borrow-form" class="form-panel">
+                <h3>Create a borrow record</h3>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="borrow-book">Select book *</label>
+                        <select id="borrow-book" required>
+                            <option value="">Choose a book</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="borrow-member">Select member *</label>
+                        <select id="borrow-member" required>
+                            <option value="">Choose a member</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="issue-date">Issue date *</label>
+                        <input
+                            id="issue-date"
+                            type="date"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="due-date">Expected return date</label>
+                        <input
+                            id="due-date"
+                            type="date">
+                    </div>
+                </div>
+
+                <p class="form-help">
+                    Select the book, member, and issue date.
+                    The expected return date is stored separately from
+                    the actual returned status.
+                </p>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        + Create Borrow Record
+                    </button>
+                </div>
+            </form>
+
+            <!-- Search Borrow Records -->
+            <div class="table-toolbar">
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input
+                        id="borrow-search"
+                        type="search"
+                        placeholder="Search records by book or member">
+                </div>
+            </div>
+
+            <!-- Borrow Records Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Record ID</th>
+                            <th>Book</th>
+                            <th>Member</th>
+                            <th>Issue Date</th>
+                            <th>Expected Return</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="borrow-records-table-body">
+                        <tr>
+                            <td colspan="7" class="empty-state">
+                                Loading borrow records...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Success and error messages -->
+        <div
+            id="message"
+            class="message"
+            role="status"
+            aria-live="polite"
+            hidden>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Library Management System</p>
+        <p class="muted">
+            Built with HTML, CSS, JavaScript, Spring Boot, and MySQL.
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
